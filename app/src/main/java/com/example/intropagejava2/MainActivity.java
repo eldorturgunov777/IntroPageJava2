@@ -56,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+
             }
         });
 
-        tabIndicator.addTab();
+        //tabIndicator.addTab();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
