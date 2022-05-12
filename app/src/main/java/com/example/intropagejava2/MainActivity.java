@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(mainActivity);
             finish();
         });
+
         tabIndicator = findViewById(R.id.tab_indicator);
         btnSkip.setOnClickListener(view -> recyclerView.getRecycledViewPool());
         tabIndicator.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
