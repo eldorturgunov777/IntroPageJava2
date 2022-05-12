@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
                     btnSkip.setVisibility(View.INVISIBLE);
                     btnGetStarted.setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override
