@@ -1,18 +1,27 @@
 package com.example.intropagejava2;
 
 /**
- * Created by Eldor Turgunov on 11.05.2022.
+ * Created by Eldor Turgunov on 15.05.2022.
  * Intro Page Java2
  * eldorturgunov777@gmail.com
  */
 public class ListData {
-    String Title, Description;
-    int ScreenImg;
+    int Img;
+    String Title;
+    String Desc;
 
-    public ListData(String title, String description, int screenImg) {
+    public ListData(int img, String title, String desc) {
+        Img = img;
         Title = title;
-        Description = description;
-        ScreenImg = screenImg;
+        Desc = desc;
+    }
+
+    public int getImg() {
+        return Img;
+    }
+
+    public void setImg(int img) {
+        Img = img;
     }
 
     public String getTitle() {
@@ -23,19 +32,11 @@ public class ListData {
         Title = title;
     }
 
-    public String getDescription() {
-        return Description;
+    public String getDesc() {
+        return Desc;
     }
 
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public int getScreenImg() {
-        return ScreenImg;
-    }
-
-    public void setScreenImg(int screenImg) {
-        ScreenImg = screenImg;
+    public void setDesc(String desc) {
+        Desc = desc;
     }
 }

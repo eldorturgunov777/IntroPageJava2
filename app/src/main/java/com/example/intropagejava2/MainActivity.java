@@ -1,5 +1,6 @@
 package com.example.intropagejava2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -10,79 +11,72 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    MyAdapter adapter;
-    TabLayout tabIndicator;
-    Button btnSkip;
-    Button btnGetStarted;
-
-    private RecyclerView recyclerView;
-    private final List<ListData> list = new ArrayList<>();
+    RecyclerView recyclerView;
+    SlideAdapter slideAdapter;
+    List<ListData> list = new ArrayList<>();
+    Button skip;
+    Button getStarted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-        btnSkip = findViewById(R.id.btn_skip);
-        btnGetStarted = findViewById(R.id.btn_get_started);
-        btnGetStarted.setOnClickListener(view -> {
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        skip = findViewById(R.id.skip);
+        getStarted = findViewById(R.id.getStarted);
+        slideAdapter = new SlideAdapter(list, this);
+
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerView.scrollToPosition(list.size());
+                loadLastScreen();
+            }
+        });
+        getStarted.setOnClickListener(view -> {
             Intent mainActivity = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(mainActivity);
             finish();
         });
-
-        tabIndicator = findViewById(R.id.tab_indicator);
-        btnSkip.setOnClickListener(view -> recyclerView.getRecycledViewPool());
-        tabIndicator.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == list.size() - 1) {
-                    btnSkip.setVisibility(View.INVISIBLE);
-                    btnGetStarted.setVisibility(View.VISIBLE);
-                }
-            }
-
-
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-
-            }
-        });
-
-        //tabIndicator.addTab();
-
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        LinearLayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layout);
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(slideAdapter);
+
+        loadData();
         initViews();
-        list();
     }
 
-    public void initViews() {
-        MyAdapter adapter = new MyAdapter(this, list);
-        recyclerView.setAdapter(adapter);
-
+    void loadData() {
+        list.add(new ListData(R.raw.first, "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting\\nindustry. Lorem Ipsum has been the industry's"));
+        list.add(new ListData(R.raw.second, "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting\\nindustry. Lorem Ipsum has been the industry's"));
+        list.add(new ListData(R.raw.three, "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting\\nindustry. Lorem Ipsum has been the industry's"));
     }
 
-    public void list() {
-        list.add(new ListData("Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting\nindustry. Lorem Ipsum has been the industry's", R.raw.first));
-        list.add(new ListData("Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting\nindustry. Lorem Ipsum has been the industry's", R.raw.second));
-        list.add(new ListData("Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting\nindustry. Lorem Ipsum has been the industry's", R.raw.three));
+    private void loadLastScreen() {
+        skip.setVisibility(View.INVISIBLE);
+        getStarted.setVisibility(View.VISIBLE);
+    }
+
+    void initViews() {
+
     }
 }
